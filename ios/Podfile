@@ -1,0 +1,80 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+target 'CarbonFootprint' do
+    rn_path = '../node_modules/react-native'
+  
+    # See http://facebook.github.io/react-native/docs/integration-with-existing-apps.html#configuring-cocoapods-dependencies
+   pod 'FBLazyVector', :path => "#{rn_path}/Libraries/FBLazyVector"
+   pod 'FBReactNativeSpec', :path => "#{rn_path}/Libraries/FBReactNativeSpec"
+   pod 'RCTRequired', :path => "#{rn_path}/Libraries/RCTRequired"
+   pod 'RCTTypeSafety', :path => "#{rn_path}/Libraries/TypeSafety"
+   pod 'React-Core', :path => "#{rn_path}/"
+   pod 'React-CoreModules', :path => "#{rn_path}/React/CoreModules"
+   pod 'React-Core/DevSupport', :path => "#{rn_path}/"
+   pod 'React-RCTActionSheet', :path => "#{rn_path}/Libraries/ActionSheetIOS"
+   pod 'React-RCTAnimation', :path => "#{rn_path}/Libraries/NativeAnimation"
+   pod 'React-RCTBlob', :path => "#{rn_path}/Libraries/Blob"
+   pod 'React-RCTImage', :path => "#{rn_path}/Libraries/Image"
+   pod 'React-RCTLinking', :path => "#{rn_path}/Libraries/LinkingIOS"
+   pod 'React-RCTNetwork', :path => "#{rn_path}/Libraries/Network"
+   pod 'React-RCTSettings', :path => "#{rn_path}/Libraries/Settings"
+   pod 'React-RCTText', :path => "#{rn_path}/Libraries/Text"
+   pod 'React-RCTVibration', :path => "#{rn_path}/Libraries/Vibration"
+   pod 'React-Core/RCTWebSocket', :path => "#{rn_path}/"
+   pod 'React-cxxreact', :path => "#{rn_path}/ReactCommon/cxxreact"
+   pod 'React-jsi', :path => "#{rn_path}/ReactCommon/jsi"
+   pod 'React-jsiexecutor', :path => "#{rn_path}/ReactCommon/jsiexecutor"
+   pod 'React-jsinspector', :path => "#{rn_path}/ReactCommon/jsinspector"
+   pod 'ReactCommon/jscallinvoker', :path => "#{rn_path}/ReactCommon"
+   pod 'ReactCommon/turbomodule/core', :path => "#{rn_path}/ReactCommon"
+   pod 'React', :path => '../node_modules/react-native/'
+   #pod 'yoga', path: "#{rn_path}/ReactCommon/yoga/yoga.podspec" #One change
+  
+    # React Native third party dependencies podspecs
+    pod 'DoubleConversion', :podspec => "#{rn_path}/third-party-podspecs/DoubleConversion.podspec"
+    pod 'glog', :podspec => "#{rn_path}/third-party-podspecs/glog.podspec"
+    # If you are using React Native <0.54, you will get the following error:
+    # "The name of the given podspec `GLog` doesn't match the expected one `glog`"
+    # Use the following line instead:
+    #pod 'GLog', :podspec => "#{rn_path}/third-party-podspecs/GLog.podspec"
+    pod 'Folly', :podspec => "#{rn_path}/third-party-podspecs/Folly.podspec"
+  
+    # react-native-maps dependencies
+    pod 'GoogleMaps'  # Uncomment this line if you want to support GoogleMaps on iOS
+    pod 'GooglePlaces'
+    pod 'GooglePlacePicker'
+    pod 'Google-Maps-iOS-Utils' # Uncomment this line if you want to support GoogleMaps on iOS
+    
+    # react-native-mapbox dependencies
+    pod 'react-native-mapbox-gl', :path => '../node_modules/@react-native-mapbox-gl/maps'
+    #pod 'react-native-mapbox-gl/DynamicLibrary', :path => '../node_modules/@react-native-mapbox-gl/maps'
+
+    #pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+    pod 'FBSDKCoreKit', :modular_headers => true
+    pod 'FBSDKLoginKit', :modular_headers => true
+    pod 'FBSDKShareKit'
+    pod 'FacebookSDK'
+
+    pod 'GoogleSignIn', '~> 4.4.0'
+    pod 'Picker', :path => '../node_modules/react-native-picker'
+    pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+    pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
+    pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+    use_native_modules!
+
+  end
+  
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      if target.name == 'react-native-google-maps'
+        target.build_configurations.each do |config|
+          config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
+        end
+      end
+      if target.name == "React"
+        target.remove_from_project
+      end
+    end
+  end
